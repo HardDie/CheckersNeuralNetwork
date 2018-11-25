@@ -5,6 +5,7 @@
 class Pool {
  public:
 	Pool();
+	Pool(const std::vector<int> &pool);
 	~Pool();
 
 	bool AddStep(int value);

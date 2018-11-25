@@ -11,6 +11,12 @@ Pool::Pool() :
 {
 }
 
+Pool::Pool(const std::vector<int> &pool) :
+	returnedValue_(-1),
+	stepsPool_(pool)
+{
+}
+
 Pool::~Pool() {
 	if (returnedValue_ != -1) {
 		std::cerr << __FUNCTION__
