@@ -1,5 +1,6 @@
 #pragma once
 #include <array>
+#include <vector>
 
 enum GRID_VAL {
   GRID_EMPTY = 0,
@@ -23,6 +24,7 @@ class Grid {
 	void Print(void) const;
 	Grid RotateRigth(void) const;
 	bool operator==(const Grid& val) const;
+	std::vector<int> GetIndexesEmptyElements(void) const;
 
 	static bool CompareGridsAllRotates(const Grid& grid1,
 	                                   const Grid& grid2);

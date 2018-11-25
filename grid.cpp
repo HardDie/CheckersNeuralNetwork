@@ -65,6 +65,16 @@ bool Grid::operator==(const Grid& val) const {
 	return val.gridVal_ == gridVal_;
 }
 
+std::vector<int> Grid::GetIndexesEmptyElements(void) const {
+	std::vector<int> retVector;
+	for (int i = 0; i < 9; i++) {
+		if (gridVal_[i] == GRID_EMPTY) {
+			retVector.push_back(i);
+		}
+	}
+	return retVector;
+}
+
 bool Grid::CompareGridsAllRotates(
     const Grid& grid1,
     const Grid& grid2) {
