@@ -74,5 +74,5 @@ void Pool::Print(void) const {
 	for (size_t i = 0; i < len; i++) {
 		std::cout << stepsPool_[i] << " ";
 	}
-	std::cout << std::endl;
+	std::cout << "last(" << returnedValue_ << ")" << std::endl;
 }
