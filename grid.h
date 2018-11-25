@@ -23,6 +23,9 @@ class Grid {
 	void Print(void) const;
 	Grid RotateRigth(void) const;
 	bool operator==(const Grid& val) const;
+
+	static bool CompareGridsAllRotates(const Grid& grid1,
+	                                   const Grid& grid2);
  private:
 	std::array<GRID_VAL, 9> gridVal_;
 };

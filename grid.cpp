@@ -64,3 +64,28 @@ Grid Grid::RotateRigth(void) const {
 bool Grid::operator==(const Grid& val) const {
 	return val.gridVal_ == gridVal_;
 }
+
+bool Grid::CompareGridsAllRotates(
+    const Grid& grid1,
+    const Grid& grid2) {
+	// 0 rotate
+	if (grid1 == grid2) {
+		return true;
+	}
+	// 90 rotate
+	Grid flipGrip = grid1.RotateRigth();
+	if (grid2 == flipGrip) {
+		return true;
+	}
+	// 180 rotate
+	flipGrip = flipGrip.RotateRigth();
+	if (grid2 == flipGrip) {
+		return true;
+	}
+	// 270 rotate
+	flipGrip = flipGrip.RotateRigth();
+	if (grid2 == flipGrip) {
+		return true;
+	}
+	return false;
+}
