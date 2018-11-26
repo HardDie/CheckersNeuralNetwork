@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <algorithm>
 #include <random>
 #include "pool.h"
@@ -75,4 +76,20 @@ void Pool::Print(void) const {
 		std::cout << stepsPool_[i] << " ";
 	}
 	std::cout << "last(" << returnedValue_ << ")" << std::endl;
+}
+
+bool Pool::SaveToFile(std::string fileName) const {
+	std::ofstream file;
+	file.open(fileName, std::ios::app);
+	if (!file.is_open()) {
+		std::cerr << __FUNCTION__
+		          << "(): Can't open file for save pool\n";
+		return false;
+	}
+	for (int value: stepsPool_) {
+		file << value << " ";
+	}
+	file << std::endl;
+	file.close();
+	return true;
 }

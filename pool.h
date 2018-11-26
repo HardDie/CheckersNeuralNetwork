@@ -15,6 +15,7 @@ class Pool {
 	int GetStep(void);
 
 	void Print(void) const;
+	bool SaveToFile(std::string fileName) const;
  private:
 	std::vector<int> stepsPool_;
 	int returnedValue_;
