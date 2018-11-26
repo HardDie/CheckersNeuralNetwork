@@ -4,9 +4,10 @@
 
 class Pool {
  public:
-	Pool();
+	Pool(void);
+	Pool(const std::string& string);
 	Pool(const std::vector<int> &pool);
-	~Pool();
+	~Pool(void);
 
 	bool AddStep(int value);
 	bool WasGoodStep(void);

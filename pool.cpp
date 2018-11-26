@@ -7,9 +7,25 @@
 static std::random_device random_device;
 static std::mt19937 engine(random_device());
 
-Pool::Pool() :
+Pool::Pool(void) :
 	returnedValue_(-1)
 {
+}
+
+Pool::Pool(const std::string& string) :
+	returnedValue_(-1)
+{
+	std::string s = string;
+	std::string delimiter = " ";
+	size_t pos = 0;
+	std::string token;
+	while ((pos = s.find(delimiter))
+	       != std::string::npos) {
+		token = s.substr(0, pos);
+		this->AddStep(std::stoi(token));
+		s.erase(0,
+		    pos + delimiter.length());
+	}
 }
 
 Pool::Pool(const std::vector<int> &pool) :
@@ -18,7 +34,7 @@ Pool::Pool(const std::vector<int> &pool) :
 {
 }
 
-Pool::~Pool() {
+Pool::~Pool(void) {
 	if (returnedValue_ != -1) {
 		std::cerr << __FUNCTION__
 		          << "(): Remove pool without save progress!\n";
