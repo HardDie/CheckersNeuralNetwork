@@ -24,6 +24,7 @@ class Grid {
 	void Print(void) const;
 	Grid RotateRigth(void) const;
 	bool operator==(const Grid& val) const;
+	int operator[](int index) const;
 	std::vector<int> GetIndexesEmptyElements(void) const;
 
 	static bool CompareGridsAllRotates(const Grid& grid1,

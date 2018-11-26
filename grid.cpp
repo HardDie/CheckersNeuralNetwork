@@ -65,6 +65,15 @@ bool Grid::operator==(const Grid& val) const {
 	return val.gridVal_ == gridVal_;
 }
 
+int Grid::operator[](int index) const {
+	if (index < 0 || index > 8) {
+		std::cerr << __FUNCTION__
+		          << "(): Try get invalid grid element\n";
+		return -1;
+	}
+	return gridVal_[index];
+}
+
 std::vector<int> Grid::GetIndexesEmptyElements(void) const {
 	std::vector<int> retVector;
 	for (int i = 0; i < 9; i++) {
