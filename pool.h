@@ -13,7 +13,7 @@ class Pool {
 	bool WasGoodStep(void);
 	bool WasBadStep(void);
 	void Sort(void);
-	int GetStep(void);
+	int GetStep(int degree = 0);
 
 	void Print(void) const;
 	bool SaveToFile(std::string fileName) const;
