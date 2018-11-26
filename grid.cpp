@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include "grid.h"
 
 static const char GRID_STR[3] = { '-', 'X', 'O' };
@@ -82,6 +83,22 @@ std::vector<int> Grid::GetIndexesEmptyElements(void) const {
 		}
 	}
 	return retVector;
+}
+
+bool Grid::SaveToFile(std::string fileName) const {
+	std::ofstream file;
+	file.open(fileName, std::ios::app);
+	if (!file.is_open()) {
+		std::cerr << __FUNCTION__
+		          << "(): Can't open file for save grid\n";
+		return false;
+	}
+	for (GRID_VAL value: gridVal_) {
+		file << value << " ";
+	}
+	file << std::endl;
+	file.close();
+	return true;
 }
 
 bool Grid::CompareGridsAllRotates(

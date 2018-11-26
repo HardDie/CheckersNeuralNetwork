@@ -26,6 +26,7 @@ class Grid {
 	bool operator==(const Grid& val) const;
 	int operator[](int index) const;
 	std::vector<int> GetIndexesEmptyElements(void) const;
+	bool SaveToFile(std::string fileName) const;
 
 	static bool CompareGridsAllRotates(const Grid& grid1,
 	                                   const Grid& grid2);
