@@ -30,7 +30,8 @@ class Grid {
 	bool SaveToFile(std::string fileName) const;
 
 	static bool CompareGridsAllRotates(const Grid& grid1,
-	                                   const Grid& grid2);
+	                                   const Grid& grid2,
+	                                   int& rotation);
  private:
 	std::array<GRID_VAL, 9> gridVal_;
 };

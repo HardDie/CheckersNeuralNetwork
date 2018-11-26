@@ -135,24 +135,29 @@ bool Grid::SaveToFile(std::string fileName) const {
 
 bool Grid::CompareGridsAllRotates(
     const Grid& grid1,
-    const Grid& grid2) {
+    const Grid& grid2,
+    int& rotation) {
 	// 0 rotate
 	if (grid1 == grid2) {
+		rotation = 0;
 		return true;
 	}
 	// 90 rotate
 	Grid flipGrip = grid1.RotateRigth();
 	if (grid2 == flipGrip) {
+		rotation = 90;
 		return true;
 	}
 	// 180 rotate
 	flipGrip = flipGrip.RotateRigth();
 	if (grid2 == flipGrip) {
+		rotation = 180;
 		return true;
 	}
 	// 270 rotate
 	flipGrip = flipGrip.RotateRigth();
 	if (grid2 == flipGrip) {
+		rotation = 270;
 		return true;
 	}
 	return false;
