@@ -11,6 +11,7 @@ enum GRID_VAL {
 class Grid {
  public:
 	Grid(void);
+	Grid(const std::string &string);
 	Grid(GRID_VAL val0, GRID_VAL val1,
 	     GRID_VAL val2, GRID_VAL val3,
 	     GRID_VAL val4, GRID_VAL val5,

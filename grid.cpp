@@ -8,6 +8,38 @@ Grid::Grid(void) {
 	gridVal_.fill(GRID_EMPTY);
 }
 
+Grid::Grid(const std::string &string) {
+	std::string s = string;
+	std::string delimiter = " ";
+	size_t pos = 0;
+	std::string token;
+
+	int index = 0;
+	while ((pos = s.find(delimiter))
+	       != std::string::npos) {
+		token = s.substr(0, pos);
+
+		if (token == "0") {
+			gridVal_[index++] = GRID_EMPTY;
+		} else if (token == "1") {
+			gridVal_[index++] = GRID_X;
+		} else if (token == "2") {
+			gridVal_[index++] = GRID_O;
+		} else {
+			std::cerr << __FUNCTION__
+			          << "(): Wrong grid element value!\n";
+		}
+
+		s.erase(0,
+		    pos + delimiter.length());
+	}
+
+	if (index != 9) {
+		std::cerr << __FUNCTION__
+		          << "(): Not enough elements in input string!\n";
+	}
+}
+
 Grid::Grid(GRID_VAL val0, GRID_VAL val1,
            GRID_VAL val2, GRID_VAL val3,
            GRID_VAL val4, GRID_VAL val5,
