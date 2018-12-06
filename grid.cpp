@@ -94,6 +94,18 @@ Grid Grid::RotateRigth(void) const {
 	return retGrid;
 }
 
+Grid Grid::Invert(void) const {
+	Grid retGrid;
+	for (int i = 0; i < 9; i++) {
+		if (gridVal_[i] == GRID_X) {
+			retGrid.MakeStep(i, GRID_O);
+		} else if (gridVal_[i] == GRID_O) {
+			retGrid.MakeStep(i, GRID_X);
+		}
+	}
+	return retGrid;
+}
+
 bool Grid::operator==(const Grid& val) const {
 	return val.gridVal_ == gridVal_;
 }
