@@ -25,6 +25,11 @@ class Study {
 	void Print(void) const;
  private:
 	std::vector<CaseObject> vObjects_;
+	/**
+	 * Store list last used objects
+	 * then fast clean and make decision
+	 */
+	std::vector<CaseObject*> vActiveObjects_;
 
 	bool SaveToFile(std::string fileName) const;
 	bool LoadFromFile(std::string fileName);

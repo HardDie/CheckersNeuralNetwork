@@ -13,17 +13,19 @@ Study::Study() {
 }
 
 void Study::WinParty(void) {
-	for (int i = 0; i < vObjects_.size(); i++) {
-		vObjects_[i].pool_.WasGoodStep();
-		vObjects_[i].pool_.Sort();
+	for (auto el: vActiveObjects_) {
+		el->pool_.WasGoodStep();
+		el->pool_.Sort();
 	}
+	vActiveObjects_.clear();
 	SaveToFile("brain.bin");
 }
 
 void Study::LoseParty(void) {
-	for (int i = 0; i < vObjects_.size(); i++) {
-		vObjects_[i].pool_.WasBadStep();
+	for (auto el: vActiveObjects_) {
+		el->pool_.WasBadStep();
 	}
+	vActiveObjects_.clear();
 }
 
 int Study::GetStepForGrid(const Grid& grid) {
@@ -41,6 +43,7 @@ int Study::GetStepForGrid(const Grid& grid) {
 			grid.Print();
 			std::cout << std::endl;
 			ret = vObjects_[i].pool_.GetStep(rotation);
+			vActiveObjects_.push_back(&vObjects_[i]);
 			return ret;
 		}
 	}
@@ -53,6 +56,7 @@ int Study::GetStepForGrid(const Grid& grid) {
 	ret = newPool.GetStep();
 	CaseObject newObject(newPool, grid);
 	vObjects_.push_back(newObject); // Inside create clones some objects
+	vActiveObjects_.push_back(&vObjects_.back());
 
 	// Clean objects before delete
 	newPool.WasBadStep();
