@@ -173,3 +173,23 @@ bool Pool::SaveToFile(std::string fileName) const {
 	file.close();
 	return true;
 }
+
+bool Pool::SaveToBinFile(std::ofstream& file) const {
+	std::size_t len = stepsPool_.size();
+	file.write((char*)&len, sizeof(len));
+	for (int el: stepsPool_) {
+		file.write((char*)&el, sizeof(el));
+	}
+	return true;
+}
+
+bool Pool::LoadFromBinFile(std::ifstream& file) {
+	std::size_t len;
+	int newElement;
+	file.read((char*)&len, sizeof(len));
+	for (std::size_t i = 0; i < len; i++) {
+		file.read((char*)&newElement, sizeof(newElement));
+		stepsPool_.push_back(newElement);
+	}
+	return true;
+}

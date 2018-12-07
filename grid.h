@@ -30,6 +30,9 @@ class Grid {
 	std::vector<int> GetIndexesEmptyElements(void) const;
 	bool SaveToFile(std::string fileName) const;
 
+	bool SaveToBinFile(std::ofstream& file) const;
+	bool LoadFromBinFile(std::ifstream& file);
+
 	static bool CompareGridsAllRotates(const Grid& grid1,
 	                                   const Grid& grid2,
 	                                   int& rotation);

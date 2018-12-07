@@ -145,6 +145,25 @@ bool Grid::SaveToFile(std::string fileName) const {
 	return true;
 }
 
+bool Grid::SaveToBinFile(std::ofstream& file) const {
+	for (GRID_VAL value: gridVal_) {
+		file.write((char *)&value, sizeof(value));
+	}
+	return true;
+}
+
+/**
+ * На вход подается открытый файл на моменте начала Grid данных
+ * от этого момента вычитывается H*W символов, зависит от размера
+ * поля, и смещенный дескриптор возвращается назад
+ */
+bool Grid::LoadFromBinFile(std::ifstream& file) {
+	for (int i = 0; i < 9; i++) {
+		file.read((char *)&gridVal_[i], sizeof(gridVal_[i]));
+	}
+	return true;
+}
+
 bool Grid::CompareGridsAllRotates(
     const Grid& grid1,
     const Grid& grid2,

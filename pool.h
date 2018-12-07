@@ -17,6 +17,9 @@ class Pool {
 
 	void Print(void) const;
 	bool SaveToFile(std::string fileName) const;
+
+	bool SaveToBinFile(std::ofstream& file) const;
+	bool LoadFromBinFile(std::ifstream& file);
  private:
 	std::vector<int> stepsPool_;
 	int returnedValue_;
