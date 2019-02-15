@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <map>
 
 class Pool {
  public:
@@ -12,7 +13,6 @@ class Pool {
 	bool AddStep(int value);
 	bool WasGoodStep(void);
 	bool WasBadStep(void);
-	void Sort(void);
 	int GetStep(int degree = 0);
 
 	void Print(void) const;
@@ -21,6 +21,9 @@ class Pool {
 	bool SaveToBinFile(std::ofstream& file) const;
 	bool LoadFromBinFile(std::ifstream& file);
  private:
+	int GetMapValue(int index) const;
+
 	std::vector<int> stepsPool_;
+	std::map<int, int> stepsMap_;
 	int returnedValue_;
 };

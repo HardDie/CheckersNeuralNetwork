@@ -4,6 +4,10 @@
 #include <random>
 #include "pool.h"
 
+/********************
+ *     Static
+ ********************/
+
 static std::random_device random_device;
 static std::mt19937 engine(random_device());
 
@@ -61,6 +65,10 @@ static int rotateValue270Degree(int value) {
 	}
 }
 
+/********************
+ *     Public
+ ********************/
+
 Pool::Pool(void) :
 	returnedValue_(-1)
 {
@@ -102,7 +110,7 @@ bool Pool::AddStep(int value) {
 		return false;
 	}
 
-	stepsPool_.push_back(value);
+	stepsMap_[value]++;
 	return true;
 }
 
@@ -129,14 +137,32 @@ bool Pool::WasBadStep(void) {
 	return true;
 }
 
-void Pool::Sort(void) {
-	std::sort(stepsPool_.begin(), stepsPool_.end());
-}
-
 int Pool::GetStep(int degree) {
-	std::uniform_int_distribution<int> dist(0, stepsPool_.size() - 1);
+	int countObjects = 0;
+	for_each(stepsMap_.begin(), stepsMap_.end(),
+	         [&countObjects](std::pair<int, int> value) {
+		         countObjects += value.second;
+	         });
+
+	if (!countObjects) {
+		std::cerr << __FUNCTION__
+		          << "(): No available steps in pool!\n";
+		exit(-1);
+	}
+
+	std::uniform_int_distribution<int> dist(0, countObjects - 1);
 	int randValue = dist(engine);
-	returnedValue_ = stepsPool_[randValue];
+
+	int tmpRange = 0;
+	for (auto value: stepsMap_) {
+		// Search value at correct range
+		if (randValue >= tmpRange &&
+		    randValue < tmpRange + value.second) {
+			returnedValue_ = value.first;
+			break;
+		}
+		tmpRange += value.second;
+	}
 
 	switch(degree) {
 	case 0: return returnedValue_;
@@ -150,11 +176,11 @@ int Pool::GetStep(int degree) {
 	}
 }
 
-void Pool::Print(void) const {
-	size_t len = stepsPool_.size();
-	for (size_t i = 0; i < len; i++) {
-		std::cout << stepsPool_[i] << " ";
+void Pool::Print(void) const{
+	for (auto it: stepsMap_) {
+		std::cout << it.first << "(" << it.second << ") ";
 	}
+
 	std::cout << "last(" << returnedValue_ << ")" << std::endl;
 }
 
@@ -192,4 +218,17 @@ bool Pool::LoadFromBinFile(std::ifstream& file) {
 		stepsPool_.push_back(newElement);
 	}
 	return true;
+}
+
+/********************
+ *     Private
+ ********************/
+
+int Pool::GetMapValue(int index) const {
+	try {
+		return stepsMap_.at(index);
+	} catch(...) {
+		// If element not exist, just return 0;
+		return 0;
+	}
 }

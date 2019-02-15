@@ -15,7 +15,6 @@ Study::Study() {
 void Study::WinParty(void) {
 	for (auto el: vActiveObjects_) {
 		el->pool_.WasGoodStep();
-		el->pool_.Sort();
 	}
 	vActiveObjects_.clear();
 	SaveToFile("brain.bin");
