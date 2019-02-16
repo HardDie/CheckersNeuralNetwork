@@ -32,7 +32,7 @@ int Study::GetStepForGrid(const Grid& grid) {
 	int rotation;
 	/* First of all try find grid in
 	 * existense array of elements */
-	for (int i = 0; i < vObjects_.size(); i++) {
+	for (size_t i = 0; i < vObjects_.size(); i++) {
 		if (Grid::CompareGridsAllRotates(grid, vObjects_[i].grid_, rotation) ||
 		    Grid::CompareGridsAllRotates(grid.Invert(), vObjects_[i].grid_,
 		                                 rotation)) {
@@ -64,7 +64,7 @@ int Study::GetStepForGrid(const Grid& grid) {
 }
 
 void Study::Print(void) const {
-	for (int i = 0; i < vObjects_.size(); i++) {
+	for (size_t i = 0; i < vObjects_.size(); i++) {
 		std::cout << "Index: " << i << std::endl;
 		std::cout << "Grid:" << std::endl;
 		vObjects_[i].grid_.Print();
@@ -107,7 +107,7 @@ bool Study::LoadFromFile(std::string fileName) {
 	}
 
 	file.read((char*)&len, sizeof(len));
-	for (int i = 0; i < len; i++) {
+	for (size_t i = 0; i < len; i++) {
 		Pool newPool;
 		Grid newGrid;
 		newPool.LoadFromBinFile(file);

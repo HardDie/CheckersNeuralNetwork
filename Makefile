@@ -15,7 +15,7 @@ $(path)/$(appname) : $(obj)
 	g++ $(obj) -o $(path)/$(appname)
 
 $(path)/%.o : %.cpp
-	g++ -c $< -o $@
+	g++ -c $< -o $@ -Wall -Werror
 
 clean : $(path)
 	rm -r $<
