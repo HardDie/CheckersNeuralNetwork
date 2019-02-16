@@ -6,7 +6,8 @@ obj=$(path)/main.o\
 	$(path)/grid.o\
 	$(path)/pool.o\
 	$(path)/study.o\
-	$(path)/game.o
+	$(path)/game.o\
+	$(path)/type_array.o
 
 all : check_path $(path)/$(appname)
 

@@ -1,5 +1,4 @@
 #include <iostream>
-#include <fstream>
 #include <algorithm>
 #include <random>
 #include "pool.h"
@@ -70,14 +69,12 @@ static int rotateValue270Degree(int value) {
  ********************/
 
 Pool::Pool(void) :
-	returnedValue_(-1),
-	stepsMap_({0})
+	returnedValue_(-1)
 {
 }
 
 Pool::Pool(const std::vector<int> &pool) :
-	returnedValue_(-1),
-	stepsMap_({0})
+	returnedValue_(-1)
 {
 }
 
@@ -175,33 +172,9 @@ void Pool::Print(void) const{
 }
 
 bool Pool::SaveToBinFile(std::ofstream& file) const {
-	for (int i = 0; i < 9; i++) {
-		int weight = GetMapValue(i);
-		file.write((char*)&weight, sizeof(weight));
-	}
-	return true;
+	return stepsMap_.SaveToBinFile(file);
 }
 
 bool Pool::LoadFromBinFile(std::ifstream& file) {
-	for (int i = 0; i < 9; i++) {
-		int weight;
-		file.read((char*)&weight, sizeof(weight));
-		if (weight) {
-			this->AddStep(i, weight);
-		}
-	}
-	return true;
-}
-
-/********************
- *     Private
- ********************/
-
-int Pool::GetMapValue(int index) const {
-	try {
-		return stepsMap_.at(index);
-	} catch(...) {
-		// If element not exist, just return 0;
-		return 0;
-	}
+	return stepsMap_.LoadFromBinFile(file);
 }

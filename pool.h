@@ -1,5 +1,6 @@
 #pragma once
 
+#include "type_array.h"
 #include <map>
 
 class Pool {
@@ -18,8 +19,7 @@ class Pool {
 	bool SaveToBinFile(std::ofstream& file) const;
 	bool LoadFromBinFile(std::ifstream& file);
  private:
-	int GetMapValue(int index) const;
 
-	std::array<int, 9> stepsMap_;
+	ArrayType stepsMap_;
 	int returnedValue_;
 };

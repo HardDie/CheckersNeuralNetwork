@@ -1,11 +1,9 @@
 #include <iostream>
-#include <fstream>
 #include "grid.h"
 
 static const char GRID_STR[3] = { '-', 'X', 'O' };
 
 Grid::Grid(void) {
-	gridVal_.fill(GRID_EMPTY);
 }
 
 Grid::Grid(const std::string &string) {
@@ -76,8 +74,8 @@ bool Grid::MakeStep(int index,
 
 void Grid::Print(void) const {
 	int index = 0;
-	for (GRID_VAL v: gridVal_) {
-		std::cout << GRID_STR[v] << " ";
+	for (int i = 0; i < 9; i++) {
+		std::cout << GRID_STR[gridVal_[i]] << " ";
 		index++;
 		if (index == 3) {
 			index = 0;
@@ -88,9 +86,9 @@ void Grid::Print(void) const {
 
 Grid Grid::RotateRigth(void) const {
 	Grid retGrid(
-	    gridVal_[6], gridVal_[3], gridVal_[0],
-	    gridVal_[7], gridVal_[4], gridVal_[1],
-	    gridVal_[8], gridVal_[5], gridVal_[2]);
+	    (GRID_VAL)gridVal_[6], (GRID_VAL)gridVal_[3], (GRID_VAL)gridVal_[0],
+	    (GRID_VAL)gridVal_[7], (GRID_VAL)gridVal_[4], (GRID_VAL)gridVal_[1],
+	    (GRID_VAL)gridVal_[8], (GRID_VAL)gridVal_[5], (GRID_VAL)gridVal_[2]);
 	return retGrid;
 }
 
@@ -130,10 +128,7 @@ std::vector<int> Grid::GetIndexesEmptyElements(void) const {
 }
 
 bool Grid::SaveToBinFile(std::ofstream& file) const {
-	for (int i = 0; i < 9; i++) {
-		file.write((char *)&gridVal_[i], sizeof(gridVal_[i]));
-	}
-	return true;
+	return gridVal_.SaveToBinFile(file);
 }
 
 /**
@@ -142,10 +137,7 @@ bool Grid::SaveToBinFile(std::ofstream& file) const {
  * поля, и смещенный дескриптор возвращается назад
  */
 bool Grid::LoadFromBinFile(std::ifstream& file) {
-	for (int i = 0; i < 9; i++) {
-		file.read((char *)&gridVal_[i], sizeof(gridVal_[i]));
-	}
-	return true;
+	return gridVal_.LoadFromBinFile(file);
 }
 
 bool Grid::CompareGridsAllRotates(

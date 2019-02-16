@@ -1,5 +1,6 @@
 #pragma once
-#include <array>
+
+#include "type_array.h"
 #include <vector>
 
 enum GRID_VAL {
@@ -36,5 +37,5 @@ class Grid {
 	                                   const Grid& grid2,
 	                                   int& rotation);
  private:
-	std::array<GRID_VAL, 9> gridVal_;
+	ArrayType gridVal_;
 };
