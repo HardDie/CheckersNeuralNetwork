@@ -76,6 +76,9 @@ Pool::Pool(void) :
 Pool::Pool(const std::vector<int> &pool) :
 	returnedValue_(-1)
 {
+	for(int v: pool) {
+		stepsMap_[v] = 1;
+	}
 }
 
 Pool::~Pool(void) {
@@ -109,7 +112,7 @@ bool Pool::WasGoodStep(void) {
 		return false;
 	}
 
-	this->AddStep(returnedValue_);
+	this->AddStep(returnedValue_, 3);
 	returnedValue_ = -1;
 	return true;
 }
