@@ -129,25 +129,9 @@ std::vector<int> Grid::GetIndexesEmptyElements(void) const {
 	return retVector;
 }
 
-bool Grid::SaveToFile(std::string fileName) const {
-	std::ofstream file;
-	file.open(fileName, std::ios::app);
-	if (!file.is_open()) {
-		std::cerr << __FUNCTION__
-		          << "(): Can't open file for save grid\n";
-		return false;
-	}
-	for (GRID_VAL value: gridVal_) {
-		file << value << " ";
-	}
-	file << std::endl;
-	file.close();
-	return true;
-}
-
 bool Grid::SaveToBinFile(std::ofstream& file) const {
-	for (GRID_VAL value: gridVal_) {
-		file.write((char *)&value, sizeof(value));
+	for (int i = 0; i < 9; i++) {
+		file.write((char *)&gridVal_[i], sizeof(gridVal_[i]));
 	}
 	return true;
 }

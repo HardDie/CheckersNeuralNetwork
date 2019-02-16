@@ -74,25 +74,8 @@ Pool::Pool(void) :
 {
 }
 
-Pool::Pool(const std::string& string) :
-	returnedValue_(-1)
-{
-	std::string s = string;
-	std::string delimiter = " ";
-	size_t pos = 0;
-	std::string token;
-	while ((pos = s.find(delimiter))
-	       != std::string::npos) {
-		token = s.substr(0, pos);
-		this->AddStep(std::stoi(token));
-		s.erase(0,
-		    pos + delimiter.length());
-	}
-}
-
 Pool::Pool(const std::vector<int> &pool) :
-	returnedValue_(-1),
-	stepsPool_(pool)
+	returnedValue_(-1)
 {
 }
 
@@ -103,14 +86,20 @@ Pool::~Pool(void) {
 	}
 }
 
-bool Pool::AddStep(int value) {
+bool Pool::AddStep(int value, int weight) {
 	if (value < 0 || value > 8) {
 		std::cerr << __FUNCTION__
 		          << "(): Invalid step!\n";
 		return false;
 	}
 
-	stepsMap_[value]++;
+	if (weight <= 0) {
+		std::cerr << __FUNCTION__
+		          << "(): Invalid weight!\n";
+		return false;
+	}
+
+	stepsMap_[value] += weight;
 	return true;
 }
 
@@ -184,38 +173,21 @@ void Pool::Print(void) const{
 	std::cout << "last(" << returnedValue_ << ")" << std::endl;
 }
 
-bool Pool::SaveToFile(std::string fileName) const {
-	std::ofstream file;
-	file.open(fileName, std::ios::app);
-	if (!file.is_open()) {
-		std::cerr << __FUNCTION__
-		          << "(): Can't open file for save pool\n";
-		return false;
-	}
-	for (int value: stepsPool_) {
-		file << value << " ";
-	}
-	file << std::endl;
-	file.close();
-	return true;
-}
-
 bool Pool::SaveToBinFile(std::ofstream& file) const {
-	std::size_t len = stepsPool_.size();
-	file.write((char*)&len, sizeof(len));
-	for (int el: stepsPool_) {
-		file.write((char*)&el, sizeof(el));
+	for (int i = 0; i < 9; i++) {
+		int weight = GetMapValue(i);
+		file.write((char*)&weight, sizeof(weight));
 	}
 	return true;
 }
 
 bool Pool::LoadFromBinFile(std::ifstream& file) {
-	std::size_t len;
-	int newElement;
-	file.read((char*)&len, sizeof(len));
-	for (std::size_t i = 0; i < len; i++) {
-		file.read((char*)&newElement, sizeof(newElement));
-		stepsPool_.push_back(newElement);
+	for (int i = 0; i < 9; i++) {
+		int weight;
+		file.read((char*)&weight, sizeof(weight));
+		if (weight) {
+			this->AddStep(i, weight);
+		}
 	}
 	return true;
 }

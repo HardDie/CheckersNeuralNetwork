@@ -75,38 +75,43 @@ void Study::Print(void) const {
 }
 
 bool Study::SaveToFile(std::string fileName) const {
-	// Before clean file
-	std::ofstream file;
-	file.open(fileName);
+	// Open and clean file
+	std::ofstream file(fileName, std::ios::binary | std::ios::trunc);
 	if (!file.is_open()) {
 		std::cerr << __FUNCTION__
 		          << "(): Can't open file for save Study data!\n";
 		return false;
 	}
-	file.close();
 
-	// After save all objects
+	// Write size to file
+	std::size_t len = vObjects_.size();
+	file.write((char*)&len, sizeof(len));
+
+	// Save all objects to file
 	for (const CaseObject &obj: vObjects_) {
-		obj.pool_.SaveToFile(fileName);
-		obj.grid_.SaveToFile(fileName);
+		obj.pool_.SaveToBinFile(file);
+		obj.grid_.SaveToBinFile(file);
 	}
+	file.close();
 	return true;
 }
 
 bool Study::LoadFromFile(std::string fileName) {
-	std::ifstream file;
-	std::string pool, grid;
-	file.open("brain.bin");
+	std::ifstream file(fileName, std::ios::binary);
+	std::size_t len;
+
 	if (!file.is_open()) {
 		std::cerr << __FUNCTION__
 		          << "(): Can't open file for load Study data!\n";
 		return false;
 	}
-	while (getline(file, pool) &&
-	       getline(file, grid)) {
-		Pool newPool(pool);
-		Grid newGrid(grid);
 
+	file.read((char*)&len, sizeof(len));
+	for (int i = 0; i < len; i++) {
+		Pool newPool;
+		Grid newGrid;
+		newPool.LoadFromBinFile(file);
+		newGrid.LoadFromBinFile(file);
 		vObjects_.push_back(CaseObject(newPool, newGrid));
 	}
 

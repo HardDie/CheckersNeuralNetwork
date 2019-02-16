@@ -28,7 +28,6 @@ class Grid {
 	bool operator==(const Grid& val) const;
 	int operator[](int index) const;
 	std::vector<int> GetIndexesEmptyElements(void) const;
-	bool SaveToFile(std::string fileName) const;
 
 	bool SaveToBinFile(std::ofstream& file) const;
 	bool LoadFromBinFile(std::ifstream& file);
