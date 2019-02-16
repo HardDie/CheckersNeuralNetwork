@@ -70,12 +70,14 @@ static int rotateValue270Degree(int value) {
  ********************/
 
 Pool::Pool(void) :
-	returnedValue_(-1)
+	returnedValue_(-1),
+	stepsMap_({0})
 {
 }
 
 Pool::Pool(const std::vector<int> &pool) :
-	returnedValue_(-1)
+	returnedValue_(-1),
+	stepsMap_({0})
 {
 }
 
@@ -128,10 +130,9 @@ bool Pool::WasBadStep(void) {
 
 int Pool::GetStep(int degree) {
 	int countObjects = 0;
-	for_each(stepsMap_.begin(), stepsMap_.end(),
-	         [&countObjects](std::pair<int, int> value) {
-		         countObjects += value.second;
-	         });
+	for (int i = 0; i < 9; i++) {
+		countObjects += stepsMap_[i];
+	}
 
 	if (!countObjects) {
 		std::cerr << __FUNCTION__
@@ -143,14 +144,14 @@ int Pool::GetStep(int degree) {
 	int randValue = dist(engine);
 
 	int tmpRange = 0;
-	for (auto value: stepsMap_) {
+	for (int i = 0; i < 9; i++) {
 		// Search value at correct range
 		if (randValue >= tmpRange &&
-		    randValue < tmpRange + value.second) {
-			returnedValue_ = value.first;
+		    randValue < tmpRange + stepsMap_[i]) {
+			returnedValue_ = i;
 			break;
 		}
-		tmpRange += value.second;
+		tmpRange += stepsMap_[i];
 	}
 
 	switch(degree) {
@@ -166,8 +167,8 @@ int Pool::GetStep(int degree) {
 }
 
 void Pool::Print(void) const{
-	for (auto it: stepsMap_) {
-		std::cout << it.first << "(" << it.second << ") ";
+	for (int i = 0; i < 9; i++) {
+		std::cout << i << "(" << stepsMap_[i] << ") ";
 	}
 
 	std::cout << "last(" << returnedValue_ << ")" << std::endl;

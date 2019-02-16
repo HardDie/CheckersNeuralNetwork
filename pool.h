@@ -20,6 +20,6 @@ class Pool {
  private:
 	int GetMapValue(int index) const;
 
-	std::map<int, int> stepsMap_;
+	std::array<int, 9> stepsMap_;
 	int returnedValue_;
 };
