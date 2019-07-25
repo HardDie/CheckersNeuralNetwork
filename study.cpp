@@ -8,6 +8,11 @@ CaseObject::CaseObject(const Pool& pool,
 	grid_ = grid;
 }
 
+void CaseObject::Print(void) const {
+	pool_.Print();
+	grid_.Print();
+}
+
 Study::Study() {
 	game_count = 0;
 	LoadFromFile("brain.bin");

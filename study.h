@@ -8,6 +8,7 @@ class CaseObject {
 	CaseObject() {}
 	CaseObject(const Pool& pool, const Grid& grid);
 	~CaseObject() {}
+	void Print(void) const;
 
 	Pool pool_;
 	Grid grid_;
