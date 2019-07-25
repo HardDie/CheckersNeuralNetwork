@@ -10,6 +10,7 @@ class Pool {
 	~Pool(void);
 
 	bool AddStep(int value, int weight = 1);
+	bool DecStep(int value, int weight = 1);
 	bool WasGoodStep(void);
 	bool WasBadStep(void);
 	int GetStep(int degree = 0);

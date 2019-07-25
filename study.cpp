@@ -33,6 +33,15 @@ void Study::LoseParty(void) {
 		el->pool_.WasBadStep();
 	}
 	vActiveObjects_.clear();
+	game_count++;
+	SaveToFile("brain.bin");
+}
+
+void Study::ClearParty(void) {
+	for (auto el: vActiveObjects_) {
+		el->pool_.WasBadStep();
+	}
+	vActiveObjects_.clear();
 }
 
 int Study::GetStepForGrid(const Grid& grid) {

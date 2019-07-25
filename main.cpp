@@ -44,16 +44,16 @@ int main(void) {
 		// MakeRandomStep(grid, GRID_X);
 		if (Game::isGameOver(grid)) {
 			study.LoseParty();
-			study_second.WinParty();
+			study_second.ClearParty();
 			std::cout << "Game counter: " << study_second.game_count << std::endl;
-			std::cout << "Lose(Second)\n";
+			std::cout << "Lose\n";
 			break;
 		}
 		countStep++;
 
 		if (countStep == 9) {
 			study.LoseParty();
-			study_second.LoseParty();
+			study_second.ClearParty();
 			std::cout << "Draw\n";
 			countStep = 0;
 			break;
@@ -63,9 +63,9 @@ int main(void) {
 		MakeAIStep(study, grid, GRID_O);
 		if (Game::isGameOver(grid)) {
 			study.WinParty();
+			study_second.ClearParty();
 			std::cout << "Game counter: " << study.game_count << std::endl;
-			study_second.LoseParty();
-			std::cout << "Win(First)\n";
+			std::cout << "Win\n";
 			break;
 		}
 		countStep++;

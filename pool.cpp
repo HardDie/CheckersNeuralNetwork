@@ -107,6 +107,26 @@ bool Pool::AddStep(int value, int weight) {
 	return true;
 }
 
+bool Pool::DecStep(int value, int weight) {
+	if (value < 0 || value > 8) {
+		std::cerr << __FUNCTION__
+		          << "(): Invalid step!\n";
+		return false;
+	}
+
+	if (weight <= 0) {
+		std::cerr << __FUNCTION__
+		          << "(): Invalid weight!\n";
+		return false;
+	}
+
+	stepsMap_[value] -= weight;
+	if (stepsMap_[value] < 1) {
+		stepsMap_[value] = 1;
+	}
+	return true;
+}
+
 bool Pool::WasGoodStep(void) {
 	if (returnedValue_ == -1) {
 		std::cerr << __FUNCTION__
@@ -126,6 +146,7 @@ bool Pool::WasBadStep(void) {
 		return false;
 	}
 
+	this->DecStep(returnedValue_, 1);
 	returnedValue_ = -1;
 	return true;
 }

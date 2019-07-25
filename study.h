@@ -21,6 +21,7 @@ class Study {
 
 	void WinParty(void);
 	void LoseParty(void);
+	void ClearParty(void);
 	int GetStepForGrid(const Grid& grid);
 
 	void Print(void) const;
