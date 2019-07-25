@@ -9,6 +9,7 @@ CaseObject::CaseObject(const Pool& pool,
 }
 
 Study::Study() {
+	game_count = 0;
 	LoadFromFile("brain.bin");
 }
 
@@ -17,6 +18,7 @@ void Study::WinParty(void) {
 		el->pool_.WasGoodStep();
 	}
 	vActiveObjects_.clear();
+	game_count++;
 	SaveToFile("brain.bin");
 }
 
@@ -80,6 +82,8 @@ bool Study::SaveToFile(std::string fileName) const {
 		return false;
 	}
 
+	// Write played game counter
+	file.write((char*)&game_count, sizeof(game_count));
 	// Write size to file
 	std::size_t len = vObjects_.size();
 	file.write((char*)&len, sizeof(len));
@@ -103,6 +107,7 @@ bool Study::LoadFromFile(std::string fileName) {
 		return false;
 	}
 
+	file.read((char*)&game_count, sizeof(game_count));
 	file.read((char*)&len, sizeof(len));
 	for (size_t i = 0; i < len; i++) {
 		Pool newPool;

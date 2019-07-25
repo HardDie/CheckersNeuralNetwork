@@ -23,6 +23,7 @@ class Study {
 	int GetStepForGrid(const Grid& grid);
 
 	void Print(void) const;
+	int game_count;
  private:
 	std::vector<CaseObject> vObjects_;
 	/**

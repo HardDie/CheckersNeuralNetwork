@@ -45,6 +45,7 @@ int main(void) {
 		if (Game::isGameOver(grid)) {
 			study.LoseParty();
 			study_second.WinParty();
+			std::cout << "Game counter: " << study_second.game_count << std::endl;
 			std::cout << "Lose(Second)\n";
 			break;
 		}
@@ -62,6 +63,7 @@ int main(void) {
 		MakeAIStep(study, grid, GRID_O);
 		if (Game::isGameOver(grid)) {
 			study.WinParty();
+			std::cout << "Game counter: " << study.game_count << std::endl;
 			study_second.LoseParty();
 			std::cout << "Win(First)\n";
 			break;
