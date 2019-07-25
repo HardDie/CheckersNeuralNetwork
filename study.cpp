@@ -11,6 +11,7 @@ CaseObject::CaseObject(const Pool& pool,
 Study::Study() {
 	game_count = 0;
 	LoadFromFile("brain.bin");
+	vObjects_.reserve(20);
 }
 
 void Study::WinParty(void) {
