@@ -52,14 +52,11 @@ int Study::GetStepForGrid(const Grid& grid) {
 	/* If not find exist grid
 	 * create new pair grid and pool */
 	Pool newPool(grid.GetIndexesEmptyElements());
-	ret = newPool.GetStep();
 	CaseObject newObject(newPool, grid);
 	vObjects_.push_back(newObject); // Inside create clones some objects
 	vActiveObjects_.push_back(&vObjects_.back());
+	ret = vActiveObjects_.back()->pool_.GetStep();
 
-	// Clean objects before delete
-	newPool.WasBadStep();
-	newObject.pool_.WasBadStep();
 	return ret;
 }
 
