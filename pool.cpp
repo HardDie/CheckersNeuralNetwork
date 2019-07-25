@@ -101,7 +101,9 @@ bool Pool::AddStep(int value, int weight) {
 		return false;
 	}
 
-	stepsMap_[value] += weight;
+	if (stepsMap_[value] + weight > stepsMap_[value]) {
+		stepsMap_[value] += weight;
+	}
 	return true;
 }
 
