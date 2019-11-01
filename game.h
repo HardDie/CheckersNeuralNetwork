@@ -3,9 +3,9 @@
 #include "grid.h"
 
 class Game {
- public:
+public:
 	Game() {}
 	~Game() {}
 
-	static bool isGameOver(const Grid& grid);
+	static bool isGameOver( const Grid &grid );
 };

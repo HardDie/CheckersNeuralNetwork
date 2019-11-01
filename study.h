@@ -4,36 +4,37 @@
 #include "grid.h"
 
 class CaseObject {
- public:
+public:
 	CaseObject() {}
-	CaseObject(const Pool& pool, const Grid& grid);
+	CaseObject( const Pool &pool, const Grid &grid );
 	~CaseObject() {}
-	void Print(void) const;
+	void Print( void ) const;
 
 	Pool pool_;
 	Grid grid_;
 };
 
 class Study {
- public:
+public:
 	Study();
 	~Study() {}
 
-	void WinParty(void);
-	void LoseParty(void);
-	void ClearParty(void);
-	int GetStepForGrid(const Grid& grid);
+	void WinParty( void );
+	void LoseParty( void );
+	void ClearParty( void );
+	int  GetStepForGrid( const Grid &grid );
 
-	void Print(void) const;
-	int game_count;
- private:
-	std::vector<CaseObject> vObjects_;
+	void Print( void ) const;
+	int  game_count;
+
+private:
+	std::vector< CaseObject > vObjects_;
 	/**
 	 * Store list last used objects
 	 * then fast clean and make decision
 	 */
-	std::vector<CaseObject*> vActiveObjects_;
+	std::vector< CaseObject * > vActiveObjects_;
 
-	bool SaveToFile(std::string fileName) const;
-	bool LoadFromFile(std::string fileName);
+	bool SaveToFile( std::string fileName ) const;
+	bool LoadFromFile( std::string fileName );
 };

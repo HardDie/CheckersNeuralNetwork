@@ -8,10 +8,10 @@
  ********************/
 
 static std::random_device random_device;
-static std::mt19937 engine(random_device());
+static std::mt19937       engine( random_device() );
 
-static int rotateValue90Degree(int value) {
-	switch(value) {
+static int rotateValue90Degree( int value ) {
+	switch ( value ) {
 	case 0: return 6;
 	case 1: return 3;
 	case 2: return 0;
@@ -22,14 +22,13 @@ static int rotateValue90Degree(int value) {
 	case 7: return 5;
 	case 8: return 2;
 	default:
-		std::cerr << __FUNCTION__
-		          << "(): Wrong value for rotation!\n";
-		exit(-1);
+		std::cerr << __FUNCTION__ << "(): Wrong value for rotation!\n";
+		exit( -1 );
 	}
 }
 
-static int rotateValue180Degree(int value) {
-	switch(value) {
+static int rotateValue180Degree( int value ) {
+	switch ( value ) {
 	case 0: return 8;
 	case 1: return 7;
 	case 2: return 6;
@@ -40,14 +39,13 @@ static int rotateValue180Degree(int value) {
 	case 7: return 1;
 	case 8: return 0;
 	default:
-		std::cerr << __FUNCTION__
-		          << "(): Wrong value for rotation!\n";
-		exit(-1);
+		std::cerr << __FUNCTION__ << "(): Wrong value for rotation!\n";
+		exit( -1 );
 	}
 }
 
-static int rotateValue270Degree(int value) {
-	switch(value) {
+static int rotateValue270Degree( int value ) {
+	switch ( value ) {
 	case 0: return 2;
 	case 1: return 5;
 	case 2: return 8;
@@ -58,9 +56,8 @@ static int rotateValue270Degree(int value) {
 	case 7: return 3;
 	case 8: return 6;
 	default:
-		std::cerr << __FUNCTION__
-		          << "(): Wrong value for rotation!\n";
-		exit(-1);
+		std::cerr << __FUNCTION__ << "(): Wrong value for rotation!\n";
+		exit( -1 );
 	}
 }
 
@@ -68,139 +65,125 @@ static int rotateValue270Degree(int value) {
  *     Public
  ********************/
 
-Pool::Pool(void) :
-	returnedValue_(-1)
-{
-}
+Pool::Pool( void ) : returnedValue_( -1 ) {}
 
-Pool::Pool(const std::vector<int> &pool) :
-	returnedValue_(-1)
-{
-	for(int v: pool) {
-		stepsMap_[v] = 1;
+Pool::Pool( const std::vector< int > &pool ) : returnedValue_( -1 ) {
+	for ( int v : pool ) {
+		stepsMap_[ v ] = 1;
 	}
 }
 
-Pool::~Pool(void) {
-	if (returnedValue_ != -1) {
+Pool::~Pool( void ) {
+	if ( returnedValue_ != -1 ) {
 		std::cerr << __FUNCTION__
 		          << "(): Remove pool without save progress!\n";
 	}
 }
 
-bool Pool::AddStep(int value, int weight) {
-	if (value < 0 || value > 8) {
-		std::cerr << __FUNCTION__
-		          << "(): Invalid step!\n";
+bool Pool::AddStep( int value, int weight ) {
+	if ( value < 0 || value > 8 ) {
+		std::cerr << __FUNCTION__ << "(): Invalid step!\n";
 		return false;
 	}
 
-	if (weight <= 0) {
-		std::cerr << __FUNCTION__
-		          << "(): Invalid weight!\n";
+	if ( weight <= 0 ) {
+		std::cerr << __FUNCTION__ << "(): Invalid weight!\n";
 		return false;
 	}
 
-	if (stepsMap_[value] + weight > stepsMap_[value]) {
-		stepsMap_[value] += weight;
+	if ( stepsMap_[ value ] + weight > stepsMap_[ value ] ) {
+		stepsMap_[ value ] += weight;
 	}
 	return true;
 }
 
-bool Pool::DecStep(int value, int weight) {
-	if (value < 0 || value > 8) {
-		std::cerr << __FUNCTION__
-		          << "(): Invalid step!\n";
+bool Pool::DecStep( int value, int weight ) {
+	if ( value < 0 || value > 8 ) {
+		std::cerr << __FUNCTION__ << "(): Invalid step!\n";
 		return false;
 	}
 
-	if (weight <= 0) {
-		std::cerr << __FUNCTION__
-		          << "(): Invalid weight!\n";
+	if ( weight <= 0 ) {
+		std::cerr << __FUNCTION__ << "(): Invalid weight!\n";
 		return false;
 	}
 
-	stepsMap_[value] -= weight;
-	if (stepsMap_[value] < 1) {
-		stepsMap_[value] = 1;
+	stepsMap_[ value ] -= weight;
+	if ( stepsMap_[ value ] < 1 ) {
+		stepsMap_[ value ] = 1;
 	}
 	return true;
 }
 
-bool Pool::WasGoodStep(void) {
-	if (returnedValue_ == -1) {
-		std::cerr << __FUNCTION__
-		          << "(): Try save empty value!\n";
+bool Pool::WasGoodStep( void ) {
+	if ( returnedValue_ == -1 ) {
+		std::cerr << __FUNCTION__ << "(): Try save empty value!\n";
 		return false;
 	}
 
-	this->AddStep(returnedValue_, 3);
+	this->AddStep( returnedValue_, 3 );
 	returnedValue_ = -1;
 	return true;
 }
 
-bool Pool::WasBadStep(void) {
-	if (returnedValue_ == -1) {
-		std::cerr << __FUNCTION__
-		          << "(): Try save empty value!\n";
+bool Pool::WasBadStep( void ) {
+	if ( returnedValue_ == -1 ) {
+		std::cerr << __FUNCTION__ << "(): Try save empty value!\n";
 		return false;
 	}
 
-	this->DecStep(returnedValue_, 1);
+	this->DecStep( returnedValue_, 1 );
 	returnedValue_ = -1;
 	return true;
 }
 
-int Pool::GetStep(int degree) {
+int Pool::GetStep( int degree ) {
 	int countObjects = 0;
-	for (int i = 0; i < 9; i++) {
-		countObjects += stepsMap_[i];
+	for ( int i = 0; i < 9; i++ ) {
+		countObjects += stepsMap_[ i ];
 	}
 
-	if (!countObjects) {
+	if ( !countObjects ) {
 		std::cerr << __FUNCTION__
 		          << "(): No available steps in pool!\n";
-		exit(-1);
+		exit( -1 );
 	}
 
-	std::uniform_int_distribution<int> dist(0, countObjects - 1);
-	int randValue = dist(engine);
+	std::uniform_int_distribution< int > dist( 0, countObjects - 1 );
+	int                                  randValue = dist( engine );
 
 	int tmpRange = 0;
-	for (int i = 0; i < 9; i++) {
+	for ( int i = 0; i < 9; i++ ) {
 		// Search value at correct range
-		if (randValue >= tmpRange &&
-		    randValue < tmpRange + stepsMap_[i]) {
+		if ( randValue >= tmpRange &&
+		     randValue < tmpRange + stepsMap_[ i ] ) {
 			returnedValue_ = i;
 			break;
 		}
-		tmpRange += stepsMap_[i];
+		tmpRange += stepsMap_[ i ];
 	}
 
-	switch(degree) {
+	switch ( degree ) {
 	case 0: return returnedValue_;
-	case 90: return rotateValue90Degree(returnedValue_);
-	case 180: return rotateValue180Degree(returnedValue_);
-	case 270: return rotateValue270Degree(returnedValue_);
-	default:
-		std::cerr << __FUNCTION__
-		          << "(): Wrong degree!\n";
-		exit(-1);
+	case 90: return rotateValue90Degree( returnedValue_ );
+	case 180: return rotateValue180Degree( returnedValue_ );
+	case 270: return rotateValue270Degree( returnedValue_ );
+	default: std::cerr << __FUNCTION__ << "(): Wrong degree!\n"; exit( -1 );
 	}
 }
 
-void Pool::Print(void) const{
-	for (int i = 0; i < 9; i++) {
-		std::cout << i << "(" << stepsMap_[i] << ") ";
+void Pool::Print( void ) const {
+	for ( int i = 0; i < 9; i++ ) {
+		std::cout << i << "(" << stepsMap_[ i ] << ") ";
 	}
 
 	std::cout << "last(" << returnedValue_ << ")" << std::endl;
 }
 
-bool Pool::SaveToBinFile(std::ofstream& file) const {
-	return stepsMap_.SaveToBinFile(file);
+bool Pool::SaveToBinFile( std::ofstream &file ) const {
+	return stepsMap_.SaveToBinFile( file );
 }
 
-bool Pool::LoadFromBinFile(std::ifstream& file) {
-	return stepsMap_.LoadFromBinFile(file);
+bool Pool::LoadFromBinFile( std::ifstream &file ) {
+	return stepsMap_.LoadFromBinFile( file );
 }
