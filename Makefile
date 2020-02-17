@@ -1,24 +1,42 @@
-appname=NeuronStudy
+ifndef V
+	QUIET_CC       = @echo '  ' CC '       ' $@;
+	QUIET_CXX      = @echo '  ' CXX '      ' $@;
+	QUIET_BUILT_IN = @echo '  ' BUILTIN '  ' $@;
+	QUIET_CLEAN    = @echo '  ' CLEAN '    ' $<;
+endif
 
-path=bin
+CC = g++
+BINPATH = bin
+TARGET = ${BINPATH}/NeuronStudy
+EXT = cpp
 
-obj=$(path)/main.o\
-	$(path)/grid.o\
-	$(path)/pool.o\
-	$(path)/study.o\
-	$(path)/game.o\
-	$(path)/type_array.o
+CFLAGS =
+CFLAGS += -pedantic
+CFLAGS += -Wall
+CFLAGS += -Wextra
+CFLAGS += -Wwrite-strings
+CFLAGS += -Werror
+CFLAGS += -MD
 
-all : check_path $(path)/$(appname)
+CFLAGS += -g
+CFLAGS += -fsanitize=address
+CFLAGS += -fno-omit-frame-pointer
 
-$(path)/$(appname) : $(obj)
-	g++ $(obj) -o $(path)/$(appname)
+LDFLAGS =
 
-$(path)/%.o : %.cpp
-	g++ -c $< -o $@ -Wall -Werror
+SRC ?= $(wildcard *.${EXT})
+OBJ ?= $(SRC:%.${EXT}=${BINPATH}/%.o)
 
-clean : $(path)
-	rm -r $<
+all : ${TARGET}
 
-check_path :
-	@ if [ ! -d $(path) ]; then mkdir $(path); fi
+${TARGET} : ${OBJ}
+	${QUIET_BUILT_IN}${CC} $^ -o $@ ${CFLAGS} ${LDFLAGS}
+
+${BINPATH}/%.o : %.${EXT}
+	@ if [ ! -d ${BINPATH} ]; then mkdir ${BINPATH}; fi
+	${QUIET_CXX}${CC} -c $< -o $@ ${CFLAGS}
+
+clean : ${BINPATH}
+	${QUIET_CLEAN}rm -rf $<
+
+-include $(OBJ:%.o=%.h)
